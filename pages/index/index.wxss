@@ -95,3 +95,32 @@
   right: 50rpx;
   z-index: 999;
 }
+
+.form {
+  position: absolute;
+  top: 50%;
+}
+
+.input {
+  width: 90%;
+  height: 1.25em;
+  margin: 20rpx auto;
+  border: solid 1px #09bb07;
+  border-radius: 10rpx;
+  text-align: center;
+  color: #09bb07;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.button {
+  width: 90%;
+}
+
+.hint {
+  width: 90%;
+  display: block;
+  margin: 50rpx auto;
+  color: #b9b9b9;
+  font-size: 36rpx;
+}
