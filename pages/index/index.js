@@ -82,22 +82,6 @@ Page({
     })
   },
 
-  addConfirm: function () {
-    var that = this
-    that.refresh()
-    if (that.data.isIngroup) {
-    }
-    wx.showModal({
-      title: '加入小组',
-      content: '确定创建位置共享小组吗？',
-      success: function (res) {
-        if (res.confirm) {
-          that.creatGroup()
-        }
-      }
-    })
-  },
-
   creatGroup: function () {
     var that = this
     that.login()
@@ -178,6 +162,7 @@ Page({
               'content-type': 'application/x-www-from-urlencoded'
             },
             success: function (res) {
+              wx.setStorageSync('groupID', a.data.groupID)
               that.refresh()
               if (res.data.reason == 'no group exist') {
                 wx.showModal({
@@ -247,27 +232,29 @@ Page({
         that.setData({
           mapData: [res.latitude, res.longitude]
         })
-        wx.request({
-          url: 'https://ebichu.cn/fresh/',
-          method: "POST",
-          header: {
+        if (!!groupID) {
+          wx.request({
+            url: 'https://ebichu.cn/fresh/',
+            method: "POST",
+            header: {
               'content-type': 'application/x-www-from-urlencoded'
-          },
-          data: {
-            session: session,
-            latitude: res.latitude,
-            longitude: res.longitude,
-            groupID: groupID,
-            state: 'WTF'
-          },
-          success: function (a) {
-            that.setData({
-              allData: a.data,
-              markers: util.getMarkers(a.data),
-              covers: util.getCovers(a.data),
-            })
-          }
-        })
+            },
+            data: {
+              session: session,
+              latitude: res.latitude,
+              longitude: res.longitude,
+              groupID: groupID,
+              state: 'WTF'
+            },
+            success: function (a) {
+              that.setData({
+                allData: a.data,
+                markers: util.getMarkers(a.data),
+                covers: util.getCovers(a.data),
+              })
+            }
+          })
+        }
       }
     })
   },
@@ -310,5 +297,10 @@ Page({
         })
       }
     })
+
+    setInterval(function () {
+      var groupID = wx.getStorageSync('groupID')
+      that.refresh()
+    }, 5000)
   }
 })
