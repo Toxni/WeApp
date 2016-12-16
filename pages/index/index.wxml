@@ -1,0 +1,54 @@
+<!--index.wxml-->
+
+<!--initial view-->
+<view class="mapBox" wx:if="{{!isInGroup}}">
+  <map 
+    class="mainMap" 
+    latitude="{{mapData[0]}}" 
+    longitude="{{mapData[1]}}"
+    markers="{{markers}}"
+  ></map>
+  <text>{{mapData[0]}} - {{mapData[1]}}</text>
+</view>
+<image src="../images/plus.png" class="fixBtn" bindtap="creatConfirm" wx:if="{{!isInGroup}}"></image>
+
+<!--multiperson view-->
+<view class="mapBox" wx:if="{{!!isInGroup}}">
+  <map
+    class="mainMap"
+    latitude="{{mapData[0]}}" 
+    longitude="{{mapData[1]}}" 
+    covers="{{covers}}"
+    markers="{{markers}}"
+  ></map>
+</view>
+
+<image src="../images/minus.png" class="fixBtn" bindtap="dismissConfirm" wx:if="{{!!isInGroup}}"></image>
+
+  <scroll-view
+    wx:if="{{!!isInGroup}}"
+    scroll-y="true" 
+    bindscrolltoupper="upper" 
+    bindscrolltolower="lower" 
+    bindscroll="scroll" 
+    scroll-into-view="{{toView}}" 
+    scroll-top="{{scrollTop}}" 
+    class="infoBox"
+  >
+
+  <view class="title">
+    <text>成员留言</text>
+  </view>
+  <view class="personInfo" wx:for="{{allData.user}}" data-key="{{item.order}}" wx:key="{{item.order}}" bindtap="changeFocus">
+    <view class="gravatarBox inline" data-key="{{item.order}}">
+      <image src="{{item.iconurl}}" class="gravatar" data-key="{{item.order}}"></image>
+    </view>
+    <view class="messageBox inline" data-key="{{item.order}}">
+      <view class="nameBox" data-key="{{item.order}}">
+        <text class="name inline" data-key="{{item.order}}">{{item.nickname}}</text>
+        <text class="number inline" data-key="{{item.order}}">{{item.order}}</text>
+      </view>
+      <text class="statue" data-key="{{item.order}}">{{item.state}}</text>
+    </view>
+  </view>
+</scroll-view>

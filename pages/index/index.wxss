@@ -1,0 +1,97 @@
+.mainMap {
+  width: 100%;
+  height: 100%;
+}
+
+.mapBox {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 48%;
+}
+
+.mapBoxLarger {
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.infoBox {
+  width: 100%;
+  height: 50%;
+  position: absolute;
+  top: 50%;
+}
+
+.title {
+  width: 96%;
+  height: 36rpx;
+  margin-left: 4%;
+  padding: 16rpx 0;
+  border-bottom: solid 1px #efefef;
+  color: #b9b9b9;
+  font-size: 28rpx;
+}
+
+.personInfo {
+  width: 96%;
+  height: 100rpx;
+  margin-left: 4%;
+  padding: 24rpx 0;
+  border-bottom: solid 1px #efefef;
+  vertical-align: middle;
+  position: relative;
+}
+
+.inline {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.gravatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 10rpx;
+}
+
+.gravatarBox {
+  max-width: 15%;
+}
+
+.messageBox {
+  padding: 0 30rpx;
+  max-width: 70%;
+  overflow: hidden;
+}
+
+.nickname {
+  font-size: 34rpx;
+  line-height: 60rpx;
+}
+
+.number {
+  margin: 10rpx;
+  padding: 0 10rpx;
+  line-height: 40rpx;
+  text-align: center;
+  color: white;
+  background: #09bb07;
+  border-radius: 10rpx;
+  font-size: 28rpx;
+}
+
+.statue {
+  color: #b9b9b9;
+  white-space: nowrap;
+  font-size: 28rpx;
+  line-height: 40rpx;
+}
+
+.fixBtn {
+  width: 100rpx;
+  height: 100rpx;
+  position: fixed;
+  bottom: 100rpx;
+  right: 50rpx;
+  z-index: 999;
+}

@@ -1,0 +1,36 @@
+    {
+      "data": [
+        {
+          "userId": 123,
+          "location": [
+            113.325220,
+            23.099994
+          ],
+          "nickname": 123,
+          "datetime": 123,
+          "message": "",
+          "iconUrl": 123,
+          "file": {
+            "type": 123,
+            "url": 123
+          },
+          "isOwner": true
+        },
+        {
+          "userId": 123,
+          "location": [
+            113.326220,
+            23.101294
+          ],
+          "nickname": 123,
+          "datetime": 123,
+          "message": "",
+          "iconUrl": 123,
+          "file": {
+            "type": 123,
+            "url": 123
+          },
+          "isOwner": false
+        }
+      ]
+    }
