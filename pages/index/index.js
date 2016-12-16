@@ -38,8 +38,9 @@ Page({
           },
           success: function (a) {
             wx.setStorageSync('session', a.data.sessionKey)
+            wx.setStorageSync('groupID', a.data.groupID)
             that.setData({
-              isInGroup: !!a.data.groupId
+              isInGroup: !!a.data.groupID
             })
             that.refresh()
             wx.getUserInfo({
@@ -54,9 +55,6 @@ Page({
                     session: a.data.sessionKey,
                     userInfo: b.userInfo
                   },
-                  success: function (res) {
-                    console.log(a)
-                  }
                 })
               }
             })
@@ -146,33 +144,36 @@ Page({
         icon: 'loading',
         duration: 1500
       })
+      wx.request({
+        url: 'https://ebichu.cn/joinGroup/',
+        data: {
+          groupID: event.detail.value,
+          session: session,
+          latitude: that.data.mapData[0],
+          longitude: that.data.mapData[1],
+        },
+        method: 'POST',
+        header: {
+          'content-type': 'application/x-www-from-urlencoded'
+        },
+        success: function (res) {
+          if (res.data.status == 'success') {
+            wx.setStorageSync('groupID', a.data.groupID)
+            console.log(wx.getStorageSync('groupID'))
+            that.refresh()
+          }
+          if (res.data.reason == 'no group exist') {
+            wx.showModal({
+              title: '提示',
+              content: '该组不存在哦~',
+              showCancel: false,
+            })
+          }
+        },
+      })
       wx.getLocation({
         type: 'wgs84',
         success: function (location) {
-          wx.request({
-            url: 'https://ebichu.cn/joinGroup/',
-            data: {
-              groupID: event.detail.value,
-              session: session,
-              latitude: that.data.mapData[0],
-              longitude: that.data.mapData[1],
-            },
-            method: 'POST',
-            header: {
-              'content-type': 'application/x-www-from-urlencoded'
-            },
-            success: function (res) {
-              wx.setStorageSync('groupID', a.data.groupID)
-              that.refresh()
-              if (res.data.reason == 'no group exist') {
-                wx.showModal({
-                  title: '提示',
-                  content: '该组不存在哦~',
-                  showCancel: false,
-                })
-              }
-            },
-          })
         },
       })
     }
@@ -226,6 +227,8 @@ Page({
     var that = this
     var session = wx.getStorageSync('session')
     var groupID = wx.getStorageSync('groupID')
+    console.log(session)
+    console.log(groupID)
     wx.getLocation({
       type: 'wgs84',
       success: function (res) {
@@ -247,6 +250,7 @@ Page({
               state: 'WTF'
             },
             success: function (a) {
+              console.log(a)
               that.setData({
                 allData: a.data,
                 markers: util.getMarkers(a.data),
