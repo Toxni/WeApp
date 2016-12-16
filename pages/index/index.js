@@ -10,6 +10,7 @@ Page({
     markers: [],
     covers: [],
     isInGroup: false,
+    focus: true,
   },
   //事件处理函数
   changeFocus: function (event) {
@@ -36,8 +37,6 @@ Page({
             code: res.code
           },
           success: function (a) {
-            console.log('lglglg')
-            console.log(a)
             wx.setStorageSync('session', a.data.sessionKey)
             that.setData({
               isInGroup: !!a.data.groupId
@@ -45,7 +44,6 @@ Page({
             that.refresh()
             wx.getUserInfo({
               success: function (b) {
-                console.log(b)
                 wx.request({
                   url: 'https://ebichu.cn/upload/',
                   method: "POST",
@@ -57,8 +55,7 @@ Page({
                     userInfo: b.userInfo
                   },
                   success: function (res) {
-                    console.log('upupup')
-                    console.log(res)
+                    console.log(a)
                   }
                 })
               }
@@ -72,12 +69,26 @@ Page({
   creatConfirm: function () {
     var that = this
     that.refresh()
-    console.log(that.data.isInGroup)
     if (that.data.isIngroup) {
-
     }
     wx.showModal({
       title: '创建小组',
+      content: '确定创建位置共享小组吗？',
+      success: function (res) {
+        if (res.confirm) {
+          that.creatGroup()
+        }
+      }
+    })
+  },
+
+  addConfirm: function () {
+    var that = this
+    that.refresh()
+    if (that.data.isIngroup) {
+    }
+    wx.showModal({
+      title: '加入小组',
       content: '确定创建位置共享小组吗？',
       success: function (res) {
         if (res.confirm) {
@@ -106,8 +117,6 @@ Page({
             longitude: res.longitude,
           },
           success: function (a) {
-            console.log('ididid')
-            console.log(a)
             wx.setStorageSync('groupID', a.data.groupID)
             if (!!a.data.groupID) {
               that.setData({
@@ -115,7 +124,7 @@ Page({
               })
               wx.showModal({
                 title: '小组创建成功',
-                content: '您的小组编号为' + a.data.groupID + '请让你的组员加入吧~',
+                content: '您的小组编号为 ' + a.data.groupID + ' 请让你的组员加入吧~',
                 showCancel: false,
                 success: function () {
                   that.refresh()
@@ -139,6 +148,49 @@ Page({
         })
       }
     })
+  },
+
+  addGroup: function (event) {
+    var that = this
+    var session = wx.getStorageSync('session')
+    if (event.detail.value.length >= 5) {
+      that.setData({
+        focus: false
+      })
+      wx.showToast({
+        title: '加载中',
+        icon: 'loading',
+        duration: 1500
+      })
+      wx.getLocation({
+        type: 'wgs84',
+        success: function (location) {
+          wx.request({
+            url: 'https://ebichu.cn/joinGroup/',
+            data: {
+              groupID: event.detail.value,
+              session: session,
+              latitude: that.data.mapData[0],
+              longitude: that.data.mapData[1],
+            },
+            method: 'POST',
+            header: {
+              'content-type': 'application/x-www-from-urlencoded'
+            },
+            success: function (res) {
+              that.refresh()
+              if (res.data.reason == 'no group exist') {
+                wx.showModal({
+                  title: '提示',
+                  content: '该组不存在哦~',
+                  showCancel: false,
+                })
+              }
+            },
+          })
+        },
+      })
+    }
   },
 
   dismissConfirm: function () {
@@ -167,11 +219,9 @@ Page({
           },
       data: {
         session: session,
-        groupID: groupID
+        groupID: groupID,
       },
       success: function (a) {
-        console.log('dsdsds')
-        console.log(a)
         wx.showModal({
           title: '小组解散成功',
           content: '您可以点击右下角加号再次建立小组~',
@@ -181,8 +231,6 @@ Page({
               allData: {},
               isInGroup: false,
             })
-            wx.removeStorageSync('session')
-            wx.removeStorageSync('groupID')
           }
         })
       }
@@ -213,8 +261,6 @@ Page({
             state: 'WTF'
           },
           success: function (a) {
-            console.log('rerere')
-            console.log(a)
             that.setData({
               allData: a.data,
               markers: util.getMarkers(a.data),
@@ -244,7 +290,7 @@ Page({
       content: '确定退出该小组吗？您可以再次搜索小组号加入。',
       success: function (res) {
         if (res.confirm) {
-          console.log(that.join())
+
         }
       }
     })
@@ -259,7 +305,6 @@ Page({
     wx.getLocation({
       type: 'wgs84',
       success: function (res) {
-        console.log(res)
         that.setData({
           mapData: [res.latitude, res.longitude]
         })
