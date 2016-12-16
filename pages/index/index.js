@@ -27,15 +27,17 @@ Page({
     wx.login({
       success: function (res) {
         wx.request({
-          url: 'https://www.ebichu.cn/login/',
+          url: 'https://ebichu.cn/login/',
           method: "POST",
           header: {
-              'content-type': 'application/x-www-from-urlencoded'
+            'content-type': 'application/x-www-from-urlencoded'
           },
           data: {
             code: res.code
           },
           success: function (a) {
+            console.log('lglglg')
+            console.log(a)
             wx.setStorageSync('session', a.data.sessionKey)
             that.setData({
               isInGroup: !!a.data.groupId
@@ -43,11 +45,12 @@ Page({
             that.refresh()
             wx.getUserInfo({
               success: function (b) {
+                console.log(b)
                 wx.request({
-                  url: 'https://www.ebichu.cn/upload/',
+                  url: 'https://ebichu.cn/upload/',
                   method: "POST",
                   header: {
-              'content-type': 'application/x-www-from-urlencoded'
+                    'content-type': 'application/x-www-from-urlencoded'
                   },
                   data: {
                     session: a.data.sessionKey,
@@ -92,7 +95,7 @@ Page({
       type: 'wgs84',
       success: function (res) {
         wx.request({
-          url: 'https://www.ebichu.cn/newGroup/',
+          url: 'https://ebichu.cn/newGroup/',
           method: "POST",
           header: {
               'content-type': 'application/x-www-from-urlencoded'
@@ -157,7 +160,7 @@ Page({
     var groupID = wx.getStorageSync('groupID')
 
     wx.request({
-      url: 'https://www.ebichu.cn/dismiss/',
+      url: 'https://ebichu.cn/dismiss/',
       method: "POST",
           header: {
               'content-type': 'application/x-www-from-urlencoded'
@@ -197,7 +200,7 @@ Page({
           mapData: [res.latitude, res.longitude]
         })
         wx.request({
-          url: 'https://www.ebichu.cn/fresh/',
+          url: 'https://ebichu.cn/fresh/',
           method: "POST",
           header: {
               'content-type': 'application/x-www-from-urlencoded'
