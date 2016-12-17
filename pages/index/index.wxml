@@ -3,28 +3,23 @@
 
 <!--initial view-->
 <view class="mapBox" wx:if="{{!isInGroup}}">
-  <map class="mainMap" latitude="{{mapData[0]}}" longitude="{{mapData[1]}}" markers="{{markers}}"  wx:if="{{!isInGroup}}"></map>
+  <map class="mainMap" latitude="{{mapData[0]}}" longitude="{{mapData[1]}}" wx:if="{{!isInGroup}}"></map>
 </view>
-
-  <view wx:if="{{!isInGroup}}" class="form">
-    <text class="hint" wx:if="{{!isInGroup}}">您还没有加入组，请输入五位数组 ID 自动加入，或者点击创建一个组。</text>
-    <input 
-      class="input" 
-      type="number" 
-      maxlength="5" 
-      bindinput="addGroup" 
-      focus="{{focus}}"  
-      wx:if="{{!isInGroup}}" 
-    ></input>
-    <button class="button" type="primary" size="default" bindtap="creatConfirm"  wx:if="{{!isInGroup}}">创建组</button>
-  </view>
+<view wx:if="{{!isInGroup}}" class="form">
+  <text class="hint" wx:if="{{!isInGroup}}">您还没有加入组，请输入五位数组 ID 自动加入，或者点击按钮创建一个组。</text>
+  <input class="input" type="number" maxlength="5" bindinput="addGroup" focus="{{focus}}" wx:if="{{!isInGroup}}" placeholder="输入5位序号自动加入" placeholder-style="font-size: 36rpx; color: #cccccc"></input>
+  <button class="button" type="primary" size="default" bindtap="creatConfirm" wx:if="{{!isInGroup}}">创建组</button>
+</view>
 
 <!--multiperson view-->
-<view class="mapBox" wx:if="{{!!isInGroup}}">
-  <map class="mainMap" latitude="{{mapData[0]}}" longitude="{{mapData[1]}}" covers="{{covers}}" markers="{{markers}}"></map>
+<view wx:if="{{!!isInGroup}}" class="formS">
+  <input class="inputS" type="text" maxlength="24" bindblur="addMarkerMsg" focus="{{focus}}" wx:if="{{!!isInGroup}}" placeholder="这里可以定义您的位置标记信息" placeholder-style="font-size: 28rpx; color: #cccccc"></input>
+</view>
+<view class="mapBox mapBoxS" wx:if="{{!!isInGroup}}">
+  <map class="mainMap" latitude="{{mapData[0]}}" longitude="{{mapData[1]}}" covers="{{covers}}" markers="{{markers}}" wx:if="{{!!isInGroup}}"></map>
 </view>
 <image src="../images/minus.png" class="fixBtn" bindtap="dismissConfirm" wx:if="{{!!isInGroup}}"></image>
-<scroll-view wx:if="{{!!isInGroup}}" scroll-y="true" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" class="infoBox">
+<scroll-view wx:if="{{!!isInGroup}}" scroll-y="true" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" class="infoBox infoBoxS">
   <view class="title">
     <text>成员留言</text>
   </view>
