@@ -21,8 +21,8 @@ function getMarkers(data) {
   if (!!data.user) {
     for (var i = 0; i < data.user.length; i++) {
       var temp = {
-        latitude: data.user[i].latitude,
-        longitude: data.user[i].longitude,
+        latitude: data.user[i].latitude * 1,
+        longitude: data.user[i].longitude * 1,
         name: data.user[i].nickname,
         desc: data.user[i].state,
       }
@@ -37,9 +37,9 @@ function getCovers(data) {
   if (!!data.user) {
     for (var i = 0; i < data.user.length; i++) {
       var temp = {
-        latitude: data.user[i].latitude,
-        longitude: data.user[i].longitude,
-        iconPath: '../images/N' + data.user[i].order + '.png',
+        latitude: data.user[i].latitude * 1,
+        longitude: data.user[i].longitude * 1,
+        iconPath: "../images/N" + data.user[i].order + ".png",
         rotate: 0,
       }
       covers.push(temp)
@@ -47,17 +47,10 @@ function getCovers(data) {
   }
   return covers
 }
-function json2Form(json) {  
-    var str = [];  
-    for(var p in json){  
-        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(json[p]));  
-    }  
-    return str.join("&");  
-}  
+
 
 module.exports = {
   formatTime: formatTime,
   getMarkers: getMarkers,
-  getCovers: getCovers,
-  json2Form:json2Form,  
+  getCovers: getCovers
 }
