@@ -7,7 +7,7 @@
     "backgroundTextStyle": "dark",
     "backgroundColor": "#eeeeee",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "金溢小程序",
+    "navigationBarTitleText": "Wechat",
     "navigationBarTextStyle": "black",
     "enablePullDownRefresh": false
   },
