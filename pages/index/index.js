@@ -70,15 +70,15 @@ Page({
                     'content-type': 'application/x-www-from-urlencoded'
                   },
                   data: {
-                    session: a.data.sessionKey,
+                    session: wx.getStorageSync('session'),
                     userInfo: b.userInfo
                   },
                 })
               },
               fail: function (res) {
                 wx.showModal({
-                  title: '网络请求失败',
-                  content: '请检查您的网络连接设置',
+                  title: '获取用户信息失败',
+                  content: '获取用户信息失败',
                   showCancel: false,
                 })
               }
@@ -119,13 +119,12 @@ Page({
 
   creatGroup: function () {
     var that = this
-    that.login()
     var session = wx.getStorageSync('session')
-    wx.showToast({
-      title: '定位中',
-      icon: 'loading',
-      duration: 1000
-    })
+    // wx.showToast({
+    //   title: '定位中',
+    //   icon: 'loading',
+    //   duration: 1000
+    // })
     wx.getLocation({
       type: 'wgs84',
       success: function (res) {
@@ -413,10 +412,10 @@ Page({
       }
     })
     
-    setInterval(function () {
-      var groupID = wx.getStorageSync('groupID')
-      that.refresh()
-    }, 5000)
+    // setInterval(function () {
+    //   var groupID = wx.getStorageSync('groupID')
+    //   that.refresh()
+    // }, 5000)
   },
 
   onReady: function() {
