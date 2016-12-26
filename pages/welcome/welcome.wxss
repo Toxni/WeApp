@@ -1,9 +1,17 @@
-.gps {
-    width: 168rpx;
-    height: 168rpx;
+.fix {
+    width: 100%;
+    top: 20%;
     position: fixed;
-    top: 50%;
-    left: 50%;
-    margin-top: -84rpx;
-    margin-left: -84rpx;
+    text-align: center;
+}
+
+.welcome {
+    display: block;
+    margin: auto;
+}
+
+.title {
+    color: #e8a43c;
+    text-align: center;
+    font-size: 32rpx;
 }

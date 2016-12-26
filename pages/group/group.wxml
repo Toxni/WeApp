@@ -1,0 +1,25 @@
+<!--group.wxml-->
+<view class="formS">
+  <input class="inputS" type="text" maxlength="24" bindblur="addMarkerMsg" placeholder="这里可以定义您的位置标记信息" placeholder-style="font-size: 28rpx; color: #cccccc"></input>
+</view>
+<view class="mapBox mapBoxS">
+  <map class="mainMap" latitude="{{latitude}}" longitude="{{longitude}}" covers="{{covers}}" markers="{{markers}}"></map>
+</view>
+<image src="../images/minus.png" class="fixBtn" bindtap="dismissConfirm"></image>
+<scroll-view scroll-y="true" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" class="infoBox infoBoxS">
+  <view class="title">
+    <text>小组{{groupID}}</text>
+  </view>
+  <view class="personInfo" wx:for="{{allData.user}}" data-key="{{item.order}}" wx:key="{{item.order}}" bindtap="changeFocus">
+    <view class="gravatarBox inline" data-key="{{item.order}}">
+      <image src="{{item.iconurl}}" class="gravatar" data-key="{{item.order}}"></image>
+    </view>
+    <view class="messageBox inline" data-key="{{item.order}}">
+      <view class="nameBox" data-key="{{item.order}}">
+        <text class="name inline" data-key="{{item.order}}">{{item.nickname}}</text>
+        <text class="number inline" data-key="{{item.order}}">{{item.order}}</text>
+      </view>
+      <text class="statue" data-key="{{item.order}}">{{item.state}}</text>
+    </view>
+  </view>
+</scroll-view>

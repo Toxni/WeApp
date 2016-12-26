@@ -48,7 +48,6 @@ function getCovers(data) {
   return covers
 }
 
-
 module.exports = {
   formatTime: formatTime,
   getMarkers: getMarkers,
