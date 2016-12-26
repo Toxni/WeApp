@@ -1,6 +1,9 @@
 {
   "pages": [
+    "pages/welcome/welcome",
     "pages/index/index",
+    "pages/post/post",
+    "pages/publish/publish",
     "pages/logs/logs"
   ],
   "window": {

@@ -1,0 +1,19 @@
+
+.outer{
+    overflow-x: hidden;
+}
+
+.panel_details {
+    background-color: white;
+    padding: 32rpx;
+}
+
+.image {
+    width: 128rpx;
+    height: 128rpx;
+    margin-top: 32rpx;
+}
+
+.button {
+    margin: 32rpx;
+}

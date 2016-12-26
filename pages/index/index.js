@@ -5,7 +5,6 @@ var util = require('../../utils/util.js')
 
 Page({
   data: {
-    mapData: ["30", "104"],
     allData: {},
     covers: [{
       iconPath: "../images/N0.png",
@@ -19,7 +18,6 @@ Page({
       longitude: "104.066541",
       name: "Toxni.com"
     }],
-    isInGroup: false,
     groupID: undefined,
     focus: true
   },
@@ -29,77 +27,8 @@ Page({
     that.refresh()
     var index = event.target.dataset.key
     this.setData({
-      mapData: [
-        that.data.allData.user[index].latitude, 
-        that.data.allData.user[index].longitude
-      ]
-    })
-  },
-
-  login: function () {
-    var that = this
-    wx.showToast({
-      title: '身份验证中...',
-      icon: 'loading',
-      duration: 400
-    })
-    wx.login({
-      success: function (res) {
-          wx.request({
-            url: 'https://ebichu.cn/login/',
-          method: "POST",
-          header: {
-            'content-type': 'application/x-www-from-urlencoded'
-          },
-          data: {
-            code: res.code
-          },
-          success: function (a) {
-            wx.setStorageSync('session', a.data.sessionKey)
-            wx.setStorageSync('groupID', a.data.groupID)
-            that.setData({
-              isInGroup: !!a.data.groupID
-            })
-            that.refresh()
-            wx.getUserInfo({
-              success: function (b) {
-                wx.request({
-                  url: 'https://ebichu.cn/upload/',
-                  method: "POST",
-                  header: {
-                    'content-type': 'application/x-www-from-urlencoded'
-                  },
-                  data: {
-                    session: a.data.sessionKey,
-                    userInfo: b.userInfo
-                  },
-                })
-              },
-              fail: function (res) {
-                wx.showModal({
-                  title: '网络请求失败',
-                  content: '请检查您的网络连接设置',
-                  showCancel: false,
-                })
-              }
-            })
-          },
-          fail: function (res) {
-            wx.showModal({
-              title: '网络请求失败',
-              content: '请检查您的网络连接设置',
-              showCancel: false,
-            })
-          }
-        })
-      },
-      fail: function (res) {
-        wx.showModal({
-          title: '身份验证失败',
-          content: '请尝试重新进入小程序。',
-          showCancel: false,
-        })
-      }
+      latitude: that.data.allData.user[index].latitude, 
+      longitude: that.data.allData.user[index].longitude
     })
   },
 
@@ -119,13 +48,12 @@ Page({
 
   creatGroup: function () {
     var that = this
-    that.login()
     var session = wx.getStorageSync('session')
-    wx.showToast({
-      title: '定位中',
-      icon: 'loading',
-      duration: 1000
-    })
+    // wx.showToast({
+    //   title: '定位中',
+    //   icon: 'loading',
+    //   duration: 1000
+    // })
     wx.getLocation({
       type: 'wgs84',
       success: function (res) {
@@ -144,7 +72,7 @@ Page({
             wx.setStorageSync('groupID', a.data.groupID)
             if (!!a.data.groupID) {
               that.setData({
-                isInGroup: true,
+                groupID: a.data.groupID
               })
               that.refresh()
               wx.showModal({
@@ -155,7 +83,7 @@ Page({
             }
             else {
               that.setData({
-                isInGroup: false,
+                groupID: undefined
               })
               wx.showModal({
                 title: '小组创建失败',
@@ -241,7 +169,7 @@ Page({
               if (res.data.status == 'success') {
                 wx.setStorageSync('groupID', event.detail.value)
                 that.setData({
-                  isInGroup: true
+                  groupID: event.detail.value
                 })
                 that.refresh()
               }
@@ -294,18 +222,18 @@ Page({
     wx.request({
       url: 'https://ebichu.cn/dismiss/',
       method: "POST",
-          header: {
-              'content-type': 'application/x-www-from-urlencoded'
-          },
+      header: {
+        'content-type': 'application/x-www-from-urlencoded'
+      },
       data: {
         session: session,
         groupID: groupID,
       },
       success: function (a) {
         that.setData({
-              allData: {},
-              isInGroup: false,
-            })
+          allData: {},
+          groupID: undefined,
+        })
         wx.showModal({
           title: '小组解散成功',
           content: '您可以点击下方按钮再次建立小组~',
@@ -326,70 +254,54 @@ Page({
     var that = this
     var session = wx.getStorageSync('session')
     var groupID = wx.getStorageSync('groupID')
-    wx.getLocation({
-      type: 'wgs84',
-      success: function (res) {
-        that.setData({
-          mapData: [res.latitude, res.longitude]
-        })
-        if (!!groupID) {
-          wx.request({
-            url: 'https://ebichu.cn/fresh/',
-            method: "POST",
-            header: {
-              'content-type': 'application/x-www-from-urlencoded'
-            },
-            data: {
-              session: session,
-              latitude: res.latitude,
-              longitude: res.longitude,
-              groupID: groupID,
-            },
-            success: function (a) {
-              if (a.data.status == 'fail') {
-                wx.setStorageSync('groupID', null)
-                that.setData({
-                  isInGroup: false
-                })
-              } else {
-                that.setData({
-                  allData: a.data,
-                  markers: util.getMarkers(a.data),
-                  covers: util.getCovers(a.data),
-                })
-              }
-            },
-            fail: function (res) {
-              wx.showModal({
-                title: '网络请求失败',
-                content: '请检查您的网络连接设置',
-                showCancel: false,
-              })
-            }
+    if (!!groupID) {
+      wx.request({
+        url: 'https://ebichu.cn/fresh/',
+        method: "POST",
+        header: {
+          'content-type': 'application/x-www-from-urlencoded'
+        },
+        data: {
+          session: session,
+          latitude: that.data.latitude,
+          longitude: that.data.longitude,
+          groupID: groupID,
+        },
+        success: function (a) {
+          if (a.data.status == 'fail') {
+            wx.setStorageSync('groupID', null)
+            that.setData({
+              groupID: undefined
+            })
+          } else {
+            that.setData({
+              allData: a.data,
+              markers: util.getMarkers(a.data),
+              covers: util.getCovers(a.data),
+            })
+          }
+        },
+        fail: function () {
+          wx.showModal({
+            title: '网络请求失败',
+            content: '请检查您的网络连接设置',
+            showCancel: false,
           })
         }
-      },
-      fail: function (res) {
-        wx.showModal({
-          title: '定位失败',
-          content: '请确定您的微信有获取定位权限',
-          showCancel: false,
-        })
-      }
-    })
+      })
+    }
   },
-  
+
   onLoad: function () {
     var that = this
     //调用应用实例的方法获取全局数据
 
-    that.login()
-
     wx.getLocation({
       type: 'wgs84',
       success: function (res) {
         that.setData({
-          mapData: [res.latitude, res.longitude],
+          latitude: res.latitude,
+          longitude: res.longitude,
           covers: [{
             iconPath: "../images/N0.png",
             latitude: res.latitude,
@@ -412,6 +324,17 @@ Page({
         })
       }
     })
+    setInterval(function () {
+      wx.getLocation({
+        type: 'wgs84',
+        success: function(res){
+          that.setData({
+            latitude: res.latitude,
+            longitude: res.longitude
+          })
+        }
+      })
+    }, 8000)
     
     setInterval(function () {
       var groupID = wx.getStorageSync('groupID')
