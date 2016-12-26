@@ -9,6 +9,11 @@ Page({
         that.setData({
             items: DefaultData
         })
+        that.requestData();
+
+        setInterval(function () {
+            that.requestData();
+        }, 5000);
     },
 
     onPullDownRefresh: function () {
@@ -16,48 +21,50 @@ Page({
         that.requestData();
     },
 
+    onPublishClick: function () {
+        wx.navigateTo({
+            url: Constant.Pages.PUBLISH,
+        })
+    },
+
+    bindData: function (images) {
+        that.setData({
+            items: images
+        });
+    },
+
     requestData: function () {
         var session = wx.getStorageSync('session');
-        var groupID = wx.getStorageSync('groupID');
 
         wx.request({
-            url: 'https://ebichu.cn/login/',
+            url: 'https://ebichu.cn/refreshPic/',
             method: "POST",
             header: {
                 'content-type': 'application/x-www-from-urlencoded'
             },
             data: {
                 session: session,
-                groupID: groupID
             },
-            success: function (a) {
-                that.setData({
-                    isInGroup: !!a.data.groupId
-                })
-                that.refresh()
-                wx.getUserInfo({
-                    success: function (b) {
-                        wx.request({
-                            url: 'https://ebichu.cn/upload/',
-                            method: "POST",
-                            header: {
-                                'content-type': 'application/x-www-from-urlencoded'
-                            },
-                            data: {
-                                session: a.data.sessionKey,
-                                userInfo: b.userInfo
-                            },
-                            success: function (res) {
-                                console.log(a)
-                            }
-                        })
-                    }
+            success: function (s) {
+                console.log("refresh data success : ");
+                console.log(s);
+
+                that.bindData(s.data.image);
+            },
+            fail: function (f) {
+                console.log("refresh data success : ");
+                console.log(f);
+                wx.showModal({
+                    title: '网络请求失败',
+                    content: '请检查您的网络连接设置',
+                    showCancel: false,
                 })
             }
         })
     }
 });
 
+var Constant = require('../../utils/constant.js');
 var that;
 var DefaultData = [
     {
