@@ -1,14 +1,21 @@
+
 <!--group.wxml-->
+<view class="fixContainer">
+  <image src="../images/minus.png" class="fixBtn dismiss" bindtap="dismissConfirm" wx:if="{{toggleShow}}"></image>
+  <image src="../images/moment.png" class="fixBtn post" bindtap="toPost" wx:if="{{toggleShow}}"></image>
+  <image src="../images/plus.png" class="fixBtn" bindtap="toggle"></image>
+  <view class="mask" bindtap="toggleClear" wx:if="{{toggleShow}}"></view>
+</view>
+
 <view class="formS">
   <input class="inputS" type="text" maxlength="24" bindblur="addMarkerMsg" placeholder="这里可以定义您的位置标记信息" placeholder-style="font-size: 28rpx; color: #cccccc"></input>
 </view>
 <view class="mapBox mapBoxS">
   <map class="mainMap" latitude="{{latitude}}" longitude="{{longitude}}" covers="{{covers}}" markers="{{markers}}"></map>
 </view>
-<image src="../images/minus.png" class="fixBtn" bindtap="dismissConfirm"></image>
-<scroll-view scroll-y="true" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" class="infoBox infoBoxS">
+<scroll-view scroll-y="true" bindtap="toggleClear" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" class="infoBox infoBoxS">
   <view class="title">
-    <text>小组{{groupID}}</text>
+    <text>小组编号 - {{groupID}}</text>
   </view>
   <view class="personInfo" wx:for="{{allData.user}}" data-key="{{item.order}}" wx:key="{{item.order}}" bindtap="changeFocus">
     <view class="gravatarBox inline" data-key="{{item.order}}">

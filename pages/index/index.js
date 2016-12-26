@@ -5,13 +5,8 @@ var util = require('../../utils/util.js')
 
 Page({
   data: {
-    allData: {},
-    covers: [{
-      iconPath: "../images/N0.png",
-      latitude: "30.572269",
-      longitude: "104.066541",
-      rotate: 0
-    }],
+    latitude: "30.572269",
+    longitude: "104.066541",
     markers: [{
       desc: "很高兴见到大家",
       latitude: "30.572269",
@@ -20,7 +15,7 @@ Page({
     }],
     groupID: undefined,
     focus: true,
-    scale: 16
+    scale: 4
   },
   //事件处理函数
   changeFocus: function (event) {
@@ -28,7 +23,7 @@ Page({
     that.refresh()
     var index = event.target.dataset.key
     this.setData({
-      latitude: that.data.allData.user[index].latitude, 
+      latitude: that.data.allData.user[index].latitude,
       longitude: that.data.allData.user[index].longitude
     })
   },
@@ -50,65 +45,55 @@ Page({
   creatGroup: function () {
     var that = this
     var session = wx.getStorageSync('session')
-    wx.getLocation({
-      type: 'wgs84',
-      success: function (res) {
-        wx.request({
-          url: 'https://ebichu.cn/newGroup/',
-          method: "POST",
-          header: {
-              'content-type': 'application/x-www-from-urlencoded'
-          },
-          data: {
-            session: session,
-            latitude: res.latitude,
-            longitude: res.longitude,
-          },
-          success: function (a) {
-            wx.setStorageSync('groupID', a.data.groupID)
-            if (!!a.data.groupID) {
-              that.setData({
-                groupID: a.data.groupID
-              })
+
+    wx.request({
+      url: 'https://ebichu.cn/newGroup/',
+      method: "POST",
+      header: {
+        'content-type': 'application/x-www-from-urlencoded'
+      },
+      data: {
+        session: session,
+        latitude: that.data.latitude,
+        longitude: that.data.longitude,
+      },
+      success: function (a) {
+        wx.setStorageSync('groupID', a.data.groupID)
+        if (!!a.data.groupID) {
+          that.setData({
+            groupID: a.data.groupID
+          })
+          wx.showModal({
+            title: '小组创建成功',
+            content: '您的小组编号为 ' + a.data.groupID + ' 请让你的组员加入吧~',
+            showCancel: false,
+            success: function (res) {
+              if (!!res.confirm) {
+                wx.redirectTo({
+                  url: '/pages/group/group',
+                })
+              }
+            }
+          })
+        }
+        else {
+          that.setData({
+            groupID: undefined
+          })
+          wx.showModal({
+            title: '小组创建失败',
+            content: 'Sorry, 服务器响应过慢，请稍后再试~',
+            showCancel: false,
+            success: function () {
               that.refresh()
-              wx.showModal({
-                title: '小组创建成功',
-                content: '您的小组编号为 ' + a.data.groupID + ' 请让你的组员加入吧~',
-                showCancel: false,
-                success: function () {
-                  wx.redirectTo({
-                    url: '/pages/group/group',
-                  })
-                }
-              })
             }
-            else {
-              that.setData({
-                groupID: undefined
-              })
-              wx.showModal({
-                title: '小组创建失败',
-                content: 'Sorry, 服务器响应过慢，请稍后再试~',
-                showCancel: false,
-                success: function () {
-                  that.refresh()
-                }
-              })
-            }
-          },
-          fail: function (res) {
-            wx.showModal({
-              title: '网络请求失败',
-              content: '请检查您的网络连接设置',
-              showCancel: false,
-            })
-          }
-        })
+          })
+        }
       },
       fail: function (res) {
         wx.showModal({
-          title: '定位失败',
-          content: '请确定您的微信有获取定位权限',
+          title: '网络请求失败',
+          content: '请检查您的网络连接设置',
           showCancel: false,
         })
       }
@@ -194,6 +179,11 @@ Page({
           groupID: groupID,
         },
         success: function (a) {
+          if (!a.data.isDismiss) {
+            wx.redirectTo({
+              url: '/pages/group/group'
+            })
+          }
           if (a.data.status == 'fail') {
             wx.setStorageSync('groupID', null)
             that.setData({
@@ -218,9 +208,12 @@ Page({
     }
   },
 
+  refreshIntime: null,
+  getLocation: null,
+
   onLoad: function () {
     var that = this
-   
+
     wx.getLocation({
       type: 'wgs84',
       success: function (res) {
@@ -237,10 +230,11 @@ Page({
         })
       }
     })
-    setInterval(function () {
+
+    that.getLocation = setInterval(function () {
       wx.getLocation({
         type: 'wgs84',
-        success: function(res){
+        success: function (res) {
           that.setData({
             latitude: res.latitude,
             longitude: res.longitude
@@ -248,15 +242,21 @@ Page({
         }
       })
     }, 8000)
-    
-    setInterval(function () {
+
+    that.refreshIntime = setInterval(function () {
       var groupID = wx.getStorageSync('groupID')
       that.refresh()
+      console.log(groupID)
     }, 5000)
   },
 
-  onReady: function() {
-    var groupID = wx.getStorageSync('groupID')
+  onUnload: function () {
+    var that = this
+    clearInterval(that.refreshIntime)
+    clearInterval(that.getLocation)
+  },
+
+  onReady: function () {
     this.refresh()
   }
 })
