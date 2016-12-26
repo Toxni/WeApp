@@ -26,8 +26,42 @@ Page({
         that.publish();
     },
 
+    publishSuccess: function () {
+        wx.hideToast()
+        wx.showModal({
+            title: '提示',
+            content: '您的动态已经发布成功！',
+            showCancel: false,
+            success: function (res) {
+                wx.navigateBack();
+            }
+        });
+    },
+
+    publishFail: function () {
+        wx.hideToast()
+        wx.showModal({
+            title: '提示',
+            content: '动态发布失败，请重试',
+            confirmText: '重试',
+            success: function (res) {
+                if (res.confirm) {
+                    that.publish();
+                }
+            }
+        });
+    },
+
     publish: function () {
         var session = wx.getStorageSync('session');
+
+        wx.showToast({
+            title: '动态发布中，请稍候',
+            icon: 'loading',
+            mask: true,
+            duration: 10000,
+        });
+
         wx.getLocation({
             type: 'wgs84',
             success: function (res) {
@@ -44,10 +78,6 @@ Page({
                     url: 'https://ebichu.cn/newPic/', //仅为示例，非真实的接口地址
                     filePath: tempImagePaths[0],
                     name: 'file',
-                    // method: "POST",
-                    // header: {
-                    //     'content-type': 'application/x-www-form-urlencoded'
-                    // },
                     formData: {
                         "session": session,
                         "content": content,
@@ -55,15 +85,20 @@ Page({
                         "latitude": res.latitude + "",
                         "longitude": res.longitude + ""
                     },
-                    success: function (res) {
+                    success: function (s) {
                         console.log("upload file success :");
-                        console.log(res);
-                        var data = res.data;
-                        //do something
+                        console.log(s);
+
+                        if (s.data.indexOf("success") >= 0) {
+                            that.publishSuccess();
+                        } else {
+                            that.publishFail();
+                        }
                     },
                     fail: function (f) {
                         console.log("upload file fail :");
                         console.log(f);
+                        that.publishFail();
                     }
                 })
             }

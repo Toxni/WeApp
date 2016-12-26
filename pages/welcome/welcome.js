@@ -11,8 +11,8 @@ Page({
     })
     wx.login({
       success: function (res) {
-          wx.request({
-            url: 'https://ebichu.cn/login/',
+        wx.request({
+          url: 'https://ebichu.cn/login/',
           method: "POST",
           header: {
             'content-type': 'application/x-www-from-urlencoded'
@@ -38,16 +38,16 @@ Page({
                   },
                   success: function () {
                     var isInGroup = !!wx.getStorageSync('groupID')
-                      if (isInGroup) {
-                        wx.redirectTo({
-                          url: "/pages/post/post"
-                        })
-                      }
-                      else {
-                        wx.redirectTo({
-                          url: "/pages/index/index"
-                        })
-                      }
+                    if (isInGroup) {
+                      wx.redirectTo({
+                        url: "/pages/post/post"
+                      })
+                    }
+                    else {
+                      wx.redirectTo({
+                        url: "/pages/index/index"
+                      })
+                    }
                   }
                 })
               },
@@ -79,19 +79,19 @@ Page({
     })
   },
 
-  onLoad:function(options){
+  onLoad: function (options) {
     this.login();
   },
-  onReady:function(){
+  onReady: function () {
     // 页面渲染完成
   },
-  onShow:function(){
+  onShow: function () {
     // 页面显示
   },
-  onHide:function(){
+  onHide: function () {
     // 页面隐藏
   },
-  onUnload:function(){
+  onUnload: function () {
     // 页面关闭
   }
 })

@@ -1,25 +1,22 @@
+
 <!--main.wxml-->
 <view class="mainBox">
-
-    <loading hidden="{{hidden}}">
-        加载中...
-    </loading>
-
-    <view class="card" wx:for="{{items}}">
-
-        <view class="container">
-            <view class="panel_avator">
-                <image class="avator" src="{{item.avator}}"></image>
-            </view>
-            <view class="panel_others">
-                <view class="nickname">{{item.nickname}}</view>
-                <text class="content">{{item.content}}</text>
-                <image class="image" src="{{item.image}}"></image>
-                <view class="publish_time">{{item.publishTime}}</view>
-            </view>
-        </view>
-        <view class="divider"></view>
+  <loading hidden="{{hidden}}">
+    加载中...
+  </loading>
+  <view class="card" wx:for="{{items}}">
+    <view class="container">
+      <view class="panel_avator">
+        <image class="avator" mode="aspectFill" src="{{item.avator}}"></image>
+      </view>
+      <view class="panel_others">
+        <view class="nickname">{{item.nickname}}</view>
+        <text class="content">{{item.content}}</text>
+        <image class="image" mode="aspectFill" src="{{item.image}}"></image>
+        <view class="publish_time">{{item.publishTime}}</view>
+      </view>
     </view>
-
-    <!--<icon type="success" size="50" class="post" bindtap="onPostClick"/>-->
+    <view class="divider"></view>
+  </view>
 </view>
+<image src="../images/plus.png" class="fixBtn" bindtap="onPublishClick"></image>Ï
