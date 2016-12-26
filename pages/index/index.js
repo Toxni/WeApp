@@ -186,7 +186,7 @@ Page({
           groupID: groupID,
         },
         success: function (a) {
-          if (!a.data.isDismiss) {
+          if (!a.data.isDismiss && groupID) {
             wx.redirectTo({
               url: '/pages/group/group'
             })
@@ -259,7 +259,6 @@ Page({
     that.refreshIntime = setInterval(function () {
       var groupID = wx.getStorageSync('groupID')
       that.refresh()
-      console.log(groupID)
     }, 5000)
   },
 
