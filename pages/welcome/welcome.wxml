@@ -1,0 +1,2 @@
+<!--pages/welcome/welcome.wxml-->
+<image src="../images/gps.gif" class="gps"></image>

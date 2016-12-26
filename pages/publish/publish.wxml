@@ -1,0 +1,11 @@
+<view class="outer">
+    <view class="panel_details">
+        <input bindinput="onTextChanged" placeholder="说点什么吧...">
+
+        </input>
+
+        <image class="image" src="{{imageData}}" bindtap="onImageClick"></image>
+    </view>
+
+    <button class="button" type="primary" bindtap="onPublishClick"> 发布</button>
+</view>
