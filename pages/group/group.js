@@ -1,10 +1,12 @@
-//index.js
+//group.js
 //获取应用实例
 var app = getApp()
 var util = require('../../utils/util.js')
 
 Page({
   data: {
+    latitude: "30.572269",
+    longitude: "104.066541",
     allData: {},
     covers: [{
       iconPath: "../images/N0.png",
@@ -19,16 +21,43 @@ Page({
       name: "Toxni.com"
     }],
     groupID: undefined,
-    scale: 18
+    scale: 4,
+    toggleShow: false,
+    
   },
   //事件处理函数
   changeFocus: function (event) {
     var that = this
-    that.refresh()
     var index = event.target.dataset.key
     this.setData({
-      latitude: that.data.allData.user[index].latitude, 
+      latitude: that.data.allData.user[index].latitude,
       longitude: that.data.allData.user[index].longitude
+    })
+  },
+
+  album: function () {
+    wx.navigateTo({
+      url: '/pages/album/album'
+    })
+  },
+
+  toggle: function () {
+    var that = this
+    that.setData({
+      toggleShow: !that.data.toggleShow,
+    })
+  },
+
+  toggleClear: function () {
+    var that = this
+    that.setData({
+      toggleShow: false,
+    })
+  },
+
+  toPost: function () {
+    wx.navigateTo ({
+      url: '/pages/post/post',
     })
   },
 
@@ -58,12 +87,28 @@ Page({
 
   dismissConfirm: function () {
     var that = this
+    var session = wx.getStorageSync('session')
+
     wx.showModal({
-      title: '解散小组',
-      content: '确定解散当前小组吗？',
+      title: '退出小组',
+      content: '确定退出当前小组吗？如果您是小组创建者，该组将直接解散。您上传的照片会出现在“我的相册”中。',
       success: function (res) {
         if (res.confirm) {
-          that.dismissGroup()
+          wx.request({
+            url: 'https://ebichu.cn/createAlbum/',
+            data: {
+              session: session,
+              albumName: 'CNM',
+            },
+            method: 'POST',
+            success: function (res) {
+              console.log(res.data.status)
+              that.dismissGroup()
+              wx.redirectTo({
+                url: '/pages/index/index'
+              })
+            }
+          })
         }
       }
     })
@@ -89,13 +134,16 @@ Page({
           allData: {},
           groupID: undefined,
         })
+        clearInterval(that.getLocation)
+
         wx.showModal({
-          title: '小组解散成功',
-          content: '您可以点击下方按钮再次建立小组~',
-          showCancel: false,
-        })
-        wx.redirectTo({
-          url: '/pages/index/index'
+          title: '小组退出成功',
+          content: '您可以重新创建组，或者在我的相册中查看历史照片。',
+          success: function (res) {
+            if (res.confirm) {
+
+            }
+          }
         })
       },
       fail: function (res) {
@@ -126,6 +174,11 @@ Page({
           groupID: groupID,
         },
         success: function (a) {
+          if (!!a.data.isDismiss) {
+            wx.redirectTo({
+              url: '/pages/index/index'
+            })
+          }
           if (a.data.status == 'fail') {
             wx.setStorageSync('groupID', null)
             that.setData({
@@ -150,8 +203,13 @@ Page({
     }
   },
 
+  refreshIntime: null,
+  getLocation: null,
+
   onLoad: function () {
     var that = this
+    that.refresh()
+
     var groupID = wx.getStorageSync('groupID')
     that.setData({
       groupID: groupID,
@@ -173,10 +231,11 @@ Page({
         })
       }
     })
-    setInterval(function () {
+
+    that.getLocation = setInterval(function () {
       wx.getLocation({
         type: 'wgs84',
-        success: function(res){
+        success: function (res) {
           that.setData({
             latitude: res.latitude,
             longitude: res.longitude
@@ -184,15 +243,42 @@ Page({
         }
       })
     }, 8000)
-    
-    setInterval(function () {
+
+    that.refreshIntime = setInterval(function () {
       var groupID = wx.getStorageSync('groupID')
       that.refresh()
-    }, 5000)
+    }, 7500)
   },
 
-  onReady: function() {
-    var groupID = wx.getStorageSync('groupID')
-    this.refresh()
+  onUnload: function () {
+    var that = this
+    clearInterval(that.refreshIntime)
+    clearInterval(that.getLocation)
+  },
+
+  onHide: function () {
+    var that = this
+    clearInterval(that.refreshIntime)
+    clearInterval(that.getLocation)
+  },
+
+  onShow: function () {
+      var that = this
+      that.getLocation = setInterval(function () {
+      wx.getLocation({
+        type: 'wgs84',
+        success: function (res) {
+          that.setData({
+            latitude: res.latitude,
+            longitude: res.longitude
+          })
+        }
+      })
+    }, 8000)
+
+    that.refreshIntime = setInterval(function () {
+      var groupID = wx.getStorageSync('groupID')
+      that.refresh()
+    }, 7500)
   }
 })

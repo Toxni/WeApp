@@ -4,16 +4,11 @@
 }
 
 .mapBox {
-  position: fixed;
+  position: absolute;
   top: 0;
   width: 100%;
   height: 48%;
-}
-
-.mapBoxLarger {
-  top: 0;
-  width: 100%;
-  height: 100%;
+  z-index: 0;
 }
 
 .infoBox {
@@ -21,6 +16,7 @@
   height: 50%;
   position: absolute;
   top: 50%;
+  z-index: 500;
 }
 
 .title {
@@ -94,6 +90,35 @@
   bottom: 100rpx;
   right: 50rpx;
   z-index: 999;
+}
+
+.fixContainer {
+  position: relative;
+}
+
+.post {
+  width: 110rpx;
+  height: 110rpx;
+  bottom: 220rpx;
+}
+
+.dismiss {
+  bottom: 100rpx;
+  right: 180rpx;
+}
+
+.album {
+  right: 180rpx;
+  bottom: 224rpx;
+}
+
+.mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 998;
 }
 
 .form {
