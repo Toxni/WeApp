@@ -1,14 +1,8 @@
 // pages/welcome/welcome.js
 Page({
   data: {},
-
   login: function () {
     var that = this
-    wx.showToast({
-      title: '身份验证中...',
-      icon: 'loading',
-      duration: 400
-    })
     wx.login({
       success: function (res) {
         wx.request({
@@ -38,16 +32,16 @@ Page({
                   },
                   success: function () {
                     var isInGroup = !!wx.getStorageSync('groupID')
-                    if (isInGroup) {
-                      wx.redirectTo({
-                        url: "/pages/post/post"
-                      })
-                    }
-                    else {
-                      wx.redirectTo({
-                        url: "/pages/index/index"
-                      })
-                    }
+                      if (isInGroup) {
+                        wx.redirectTo({
+                          url: "/pages/group/group"
+                        })
+                      }
+                      else {
+                        wx.redirectTo({
+                          url: "/pages/index/index"
+                        })
+                      }
                   }
                 })
               },

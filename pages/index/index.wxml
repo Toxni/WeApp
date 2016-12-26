@@ -1,38 +1,9 @@
-
 <!--index.wxml-->
-
-<!--initial view-->
-<view class="mapBox" wx:if="{{!groupID}}">
-  <map class="mainMap" latitude="{{latitude}}" longitude="{{longitude}}" wx:if="{{!groupID}}" markers="{{markers}}"></map>
+<view class="mapBox">
+  <map class="mainMap" latitude="{{latitude}}" longitude="{{longitude}}" markers="{{markers}}" scale="{{scale}}"></map>
 </view>
-<view wx:if="{{!groupID}}" class="form">
-  <text class="hint" wx:if="{{!groupID}}">您还没有加入组，请输入五位数组 ID 自动加入，或者点击按钮创建一个组。</text>
-  <button class="button" type="primary" size="default" bindtap="creatConfirm" wx:if="{{!groupID}}">创建组</button>
-  <input class="input" type="number" maxlength="5" bindinput="addGroup" focus="{{focus}}" wx:if="{{!groupID}}" placeholder="输入5位序号自动加入" placeholder-style="font-size: 36rpx; color: #cccccc"></input>
+<view class="form">
+  <text class="hint">您还没有加入组，请输入五位数组 ID 自动加入，或者点击按钮创建一个组。</text>
+  <button class="button" type="primary" size="default" bindtap="creatConfirm">点击创建组</button>
+  <input class="input" type="number" maxlength="5" bindinput="addGroup" placeholder="或者输入5位序号自动加入" placeholder-style="font-size: 36rpx; color: #cccccc; width: 111%"></input>
 </view>
-
-<!--multiperson view-->
-<view wx:if="{{!!groupID}}" class="formS">
-  <input class="inputS" type="text" maxlength="24" bindblur="addMarkerMsg" focus="{{focus}}" wx:if="{{!!groupID}}" placeholder="这里可以定义您的位置标记信息" placeholder-style="font-size: 28rpx; color: #cccccc"></input>
-</view>
-<view class="mapBox mapBoxS" wx:if="{{!!groupID}}">
-  <map class="mainMap" latitude="{{latitude}}" longitude="{{longitude}}" covers="{{covers}}" markers="{{markers}}" wx:if="{{!!groupID}}"></map>
-</view>
-<image src="../images/minus.png" class="fixBtn" bindtap="dismissConfirm" wx:if="{{!!groupID}}"></image>
-<scroll-view wx:if="{{!!groupID}}" scroll-y="true" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" class="infoBox infoBoxS">
-  <view class="title">
-    <text>成员留言</text>
-  </view>
-  <view class="personInfo" wx:for="{{allData.user}}" data-key="{{item.order}}" wx:key="{{item.order}}" bindtap="changeFocus">
-    <view class="gravatarBox inline" data-key="{{item.order}}">
-      <image src="{{item.iconurl}}" class="gravatar" data-key="{{item.order}}"></image>
-    </view>
-    <view class="messageBox inline" data-key="{{item.order}}">
-      <view class="nameBox" data-key="{{item.order}}">
-        <text class="name inline" data-key="{{item.order}}">{{item.nickname}}</text>
-        <text class="number inline" data-key="{{item.order}}">{{item.order}}</text>
-      </view>
-      <text class="statue" data-key="{{item.order}}">{{item.state}}</text>
-    </view>
-  </view>
-</scroll-view>

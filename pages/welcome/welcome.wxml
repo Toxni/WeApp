@@ -1,2 +1,5 @@
 <!--pages/welcome/welcome.wxml-->
-<image src="../images/gps.gif" class="gps"></image>
+<view class="fix">
+  <image src="../images/welcome.gif" class="welcome"></image>
+  <text class="title">模块装载中...</text>
+</view>
