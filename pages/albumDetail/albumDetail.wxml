@@ -1,0 +1,22 @@
+
+<!--pages/albumDetail/albumDetail.wxml-->
+<view class="mainBox">
+  <view class="card" wx:for="{{items}}" wx:key="{{item.order}}">
+    <view>
+      <view>
+        <image mode="widthFix" class="logo" src="../images/ic_loctime.png"></image>
+        <text class="title">{{item.time}}</text>
+      </view>
+      <view>
+        <view class="title">
+          <text>{{item.latitude}}</text>
+          <text>{{item.longitude}}</text>
+        </view>
+      </view>
+    </view>
+    <view>
+      <text class="text">{{item.content}}</text>
+    </view>
+    <image class="image" mode="widthFix" src="{{item.image}}"></image>
+  </view>
+</view>

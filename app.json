@@ -1,6 +1,8 @@
 {
   "pages": [
+    "pages/album/album",
     "pages/welcome/welcome",
+    "pages/albumDetail/albumDetail",
     "pages/group/group",
     "pages/index/index",
     "pages/post/post",

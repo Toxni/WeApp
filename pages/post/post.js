@@ -1,19 +1,22 @@
 Page({
     data: {
-        hidden: true,
         items: []
     },
 
     onLoad: function () {
         that = this;
-        that.setData({
-            items: DefaultData
-        })
         that.requestData();
+    },
 
-        setInterval(function () {
+    onHide: function () {
+        clearInterval(timer);
+        timer = null;
+    },
+
+    onShow: function () {
+        timer = setInterval(function () {
             that.requestData();
-        }, 5000);
+        }, 10000);
     },
 
     onPullDownRefresh: function () {
@@ -28,6 +31,28 @@ Page({
     },
 
     bindData: function (images) {
+        if (images.length == 0) {
+            wx.showModal({
+                title: '提示',
+                content: '当前Group还没有人发动态呢，要不现在去发一个？',
+                confirmText: '发动态',
+                success: function (res) {
+                    if (res.confirm) {
+                        wx.navigateTo({
+                            url: Constant.Pages.PUBLISH,
+                        })
+                    }
+                }
+            });
+
+            return;
+        }
+
+        var i = 0;
+        for (i; i < images.length; i++) {
+            var content = images[i].content;
+            images[i].content = decodeURI(content);
+        }
         that.setData({
             items: images
         });
@@ -66,6 +91,7 @@ Page({
 
 var Constant = require('../../utils/constant.js');
 var that;
+var timer;
 var DefaultData = [
     {
         "nickname": "徐锐",
