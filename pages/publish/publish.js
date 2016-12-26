@@ -18,9 +18,6 @@ Page({
             });
 
             return;
-            /*setTimeout(function () {
-             wx.hideToast();
-             } , 2000)*/
         }
 
         that.publish();
@@ -67,7 +64,7 @@ Page({
             success: function (res) {
                 var formData = {
                     "session": session,
-                    "content": content,
+                    "content": encodeURI(content),
                     "filePath": tempImagePaths[0],
                     "latitude": res.latitude + "",
                     "longitude": res.longitude + ""
@@ -80,7 +77,7 @@ Page({
                     name: 'file',
                     formData: {
                         "session": session,
-                        "content": content,
+                        "content": encodeURI(content),
                         "filePath": tempImagePaths[0],
                         "latitude": res.latitude + "",
                         "longitude": res.longitude + ""
@@ -101,6 +98,11 @@ Page({
                         that.publishFail();
                     }
                 })
+            },
+            fail: function (f) {
+                console.log("getLocation fail :");
+                console.log(f);
+                that.publishFail();
             }
         })
     },

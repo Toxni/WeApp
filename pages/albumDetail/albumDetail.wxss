@@ -1,0 +1,64 @@
+.mainBox {
+    margin: 20rpx;
+    padding: 20rpx ;
+    text-align: center;
+    color: #888888;
+    border: solid 1px #eeeeee;
+    background: #fffffb;
+}
+
+.logo {
+    width: 120rpx;
+    margin: 20rpx auto;
+}
+
+.title {
+    margin: 20rpx auto;
+    display: block;
+    font-size: 32rpx;
+}
+
+.location {
+    display: inline-block;
+}
+
+.text {
+    margin: 20rpx auto;
+    padding: 100rpx;
+    display: block;
+    font-size: 32rpx;
+    position: relative;
+    border: solid 1px #eeeeee;
+    border-left: none;
+    border-right: none;
+}
+
+.text::before {
+    content: '“';
+    position: absolute;
+    left: 0;
+    top: 20rpx;
+    font-size: 100rpx;
+    line-height: 100rpx;
+    color: #eeeeee;
+}
+
+.text::after {
+    content: '”';
+    position: absolute;
+    right: 0;
+    bottom: -30rpx;
+    font-size: 100rpx;
+    line-height: 100rpx;
+    color: #eeeeee;
+}
+
+.image {
+    display: block;
+    width: 100%;
+    margin: 20rpx auto;
+}
+
+.card {
+    margin-bottom: 160rpx;
+}

@@ -1,10 +1,7 @@
 
 <!--main.wxml-->
 <view class="mainBox">
-  <loading hidden="{{hidden}}">
-    加载中...
-  </loading>
-  <view class="card" wx:for="{{items}}">
+  <view class="card" wx:for="{{items}}"  wx:key="{{item.order}}">
     <view class="container">
       <view class="panel_avator">
         <image class="avator" mode="aspectFill" src="{{item.avator}}"></image>
@@ -19,4 +16,4 @@
     <view class="divider"></view>
   </view>
 </view>
-<image src="../images/plus.png" class="fixBtn" bindtap="onPublishClick"></image>Ï
+<image src="../images/plus.png" class="fixBtn" bindtap="onPublishClick"></image>

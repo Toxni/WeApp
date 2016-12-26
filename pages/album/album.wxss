@@ -1,0 +1,36 @@
+/* pages/album/album.wxss */
+.card {
+    position: relative;
+    width: 100%;
+    font-size: 0;
+}
+
+.image {
+    width: 100%;
+}
+
+.shadow {
+    height: 160rpx;
+    width: 100%;
+    display: block;
+    position: absolute;
+    z-index: 997;
+    top: 0;
+}
+
+.text_container {
+    color: white;
+    position: absolute;
+    z-index: 998;
+    top: 16rpx;
+    font-size: 32rpx;
+    display: block;
+}
+
+.name {
+    left: 16rpx;
+}
+
+.time {
+    right: 16rpx;
+}

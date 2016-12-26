@@ -1,0 +1,14 @@
+
+<!--pages/album/album.wxml-->
+<view class="mainBox">
+  <view class="card" wx:for="{{items}}" wx:key="{{item.order}}"  data-album-id="{{item.id}}" bindtap="onItemClick">
+    <image src="{{item.image}}" class="image" mode="aspectFill"></image>
+    <image src="../images/bg_shadow.jpg" class="shadow"></image>
+    <view class="text_container name">
+      <text>{{item.name}}</text>
+    </view>
+    <view class="text_container time">
+      <text>{{item.time}}</text>
+    </view>
+  </view>
+</view>

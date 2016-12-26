@@ -34,7 +34,7 @@ Page({
                     var isInGroup = !!wx.getStorageSync('groupID')
                       if (isInGroup) {
                         wx.redirectTo({
-                          url: "/pages/group/group"
+                          url: "/pages/post/post"
                         })
                       }
                       else {
