@@ -29,7 +29,6 @@ Page({
 
     onLoad: function () {
         that = this;
-        that.requestData();
     },
 
     onHide: function () {
@@ -46,9 +45,10 @@ Page({
 
     onShow: function () {
         console.log("onShow");
+        that.requestData();
         timer = setInterval(function () {
             that.requestData();
-        }, 10000);
+        }, 4000);
     },
 
     onPullDownRefresh: function () {
