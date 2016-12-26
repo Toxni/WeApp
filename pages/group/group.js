@@ -104,7 +104,6 @@ Page({
             },
             method: 'POST',
             success: function (res) {
-              console.log(res.data.status)
               that.dismissGroup()
               wx.redirectTo({
                 url: '/pages/index/index'
@@ -144,6 +143,7 @@ Page({
           content: '您可以重新创建组，或者在我的相册中查看历史照片。',
           showCancel: false
         })
+        wx.setStorageSync('groupID', null)
       },
       fail: function (res) {
         wx.showModal({
