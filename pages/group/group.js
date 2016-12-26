@@ -77,12 +77,12 @@ Page({
         'content-type': 'application/x-www-from-urlencoded'
       },
       success: function (res) {
-        that.refresh()
         wx.showToast({
           title: '修改成功',
           icon: 'success',
           duration: 1000
         })
+        that.refresh()
       },
     })
   },
@@ -136,16 +136,13 @@ Page({
           allData: {},
           groupID: undefined,
         })
-        clearInterval(that.getLocation)
-
+        wx.redirectTo({
+          url: '/pages/index/index'
+        })
         wx.showModal({
           title: '小组退出成功',
           content: '您可以重新创建组，或者在我的相册中查看历史照片。',
-          success: function (res) {
-            if (res.confirm) {
-
-            }
-          }
+          showCancel: false
         })
       },
       fail: function (res) {
