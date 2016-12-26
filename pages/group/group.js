@@ -2,6 +2,8 @@
 //获取应用实例
 var app = getApp()
 var util = require('../../utils/util.js')
+var refreshIntime = null
+var getLocation = null
 
 Page({
   data: {
@@ -23,7 +25,7 @@ Page({
     groupID: undefined,
     scale: 4,
     toggleShow: false,
-    
+
   },
   //事件处理函数
   changeFocus: function (event) {
@@ -56,7 +58,7 @@ Page({
   },
 
   toPost: function () {
-    wx.navigateTo ({
+    wx.navigateTo({
       url: '/pages/post/post',
     })
   },
@@ -203,9 +205,6 @@ Page({
     }
   },
 
-  refreshIntime: null,
-  getLocation: null,
-
   onLoad: function () {
     var that = this
     that.refresh()
@@ -231,40 +230,27 @@ Page({
         })
       }
     })
-
-    that.getLocation = setInterval(function () {
-      wx.getLocation({
-        type: 'wgs84',
-        success: function (res) {
-          that.setData({
-            latitude: res.latitude,
-            longitude: res.longitude
-          })
-        }
-      })
-    }, 8000)
-
-    that.refreshIntime = setInterval(function () {
-      var groupID = wx.getStorageSync('groupID')
-      that.refresh()
-    }, 7500)
   },
 
   onUnload: function () {
     var that = this
-    clearInterval(that.refreshIntime)
-    clearInterval(that.getLocation)
+    clearInterval(refreshIntime)
+    clearInterval(getLocation)
+    refreshIntime = null;
+    getLocation = null;
   },
 
   onHide: function () {
     var that = this
-    clearInterval(that.refreshIntime)
-    clearInterval(that.getLocation)
+    clearInterval(refreshIntime)
+    clearInterval(getLocation)
+    refreshIntime = null;
+    getLocation = null;
   },
 
   onShow: function () {
-      var that = this
-      that.getLocation = setInterval(function () {
+    var that = this
+    getLocation = setInterval(function () {
       wx.getLocation({
         type: 'wgs84',
         success: function (res) {
@@ -276,7 +262,7 @@ Page({
       })
     }, 8000)
 
-    that.refreshIntime = setInterval(function () {
+    refreshIntime = setInterval(function () {
       var groupID = wx.getStorageSync('groupID')
       that.refresh()
     }, 7500)
