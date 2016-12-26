@@ -17,7 +17,6 @@ Page({
           success: function (a) {
             wx.setStorageSync('session', a.data.sessionKey)
             wx.setStorageSync('groupID', a.data.groupID)
-            // that.refresh()
             wx.getUserInfo({
               success: function (b) {
                 wx.request({
@@ -34,7 +33,7 @@ Page({
                     var isInGroup = !!wx.getStorageSync('groupID')
                       if (isInGroup) {
                         wx.redirectTo({
-                          url: "/pages/post/post"
+                          url: "/pages/group/group"
                         })
                       }
                       else {

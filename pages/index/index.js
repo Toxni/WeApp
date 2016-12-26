@@ -15,7 +15,8 @@ Page({
     }],
     groupID: undefined,
     focus: true,
-    scale: 4
+    scale: 4,
+    userInfo: {}
   },
   //事件处理函数
   changeFocus: function (event) {
@@ -25,6 +26,12 @@ Page({
     this.setData({
       latitude: that.data.allData.user[index].latitude,
       longitude: that.data.allData.user[index].longitude
+    })
+  },
+
+  album: function () {
+    wx.navigateTo({
+      url: '/pages/album/album'
     })
   },
 
@@ -231,8 +238,14 @@ Page({
       }
     })
 
-    that.getLocation = setInterval(function () {
-      wx.getLocation({
+    app.getUserInfo(function (userInfo) {
+      that.setData({
+        userInfo: userInfo
+      })
+    }),
+
+      that.getLocation = setInterval(function () {
+        wx.getLocation({
         type: 'wgs84',
         success: function (res) {
           that.setData({

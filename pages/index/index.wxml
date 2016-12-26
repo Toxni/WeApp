@@ -1,9 +1,14 @@
+
 <!--index.wxml-->
 <view class="mapBox">
   <map class="mainMap" latitude="{{latitude}}" longitude="{{longitude}}" markers="{{markers}}" scale="{{scale}}"></map>
 </view>
 <view class="form">
-  <text class="hint">您还没有加入组，请输入五位数组 ID 自动加入，或者点击按钮创建一个组。</text>
+  <image src="{{userInfo.avatarUrl}}" class="avatar inline" ontap="album"></image>
+  <view class="inline">
+    <text class="hint">Hello {{userInfo.nickName}}~ </text>
+    <text class="hint">您还未加入组，请输入小组 ID 加入，或点击按钮直接创建组。点击头像可进入历史相册。</text>
+  </view>
   <button class="button" type="primary" size="default" bindtap="creatConfirm">点击创建组</button>
   <input class="input" type="number" maxlength="5" bindinput="addGroup" placeholder="或者输入5位序号自动加入" placeholder-style="font-size: 36rpx; color: #cccccc; width: 111%"></input>
 </view>

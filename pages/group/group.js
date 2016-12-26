@@ -35,6 +35,12 @@ Page({
     })
   },
 
+  album: function () {
+    wx.navigateTo({
+      url: '/pages/album/album'
+    })
+  },
+
   toggle: function () {
     var that = this
     that.setData({
@@ -168,7 +174,6 @@ Page({
           groupID: groupID,
         },
         success: function (a) {
-          console.log(123)
           if (!!a.data.isDismiss) {
             wx.redirectTo({
               url: '/pages/index/index'
@@ -250,4 +255,30 @@ Page({
     clearInterval(that.refreshIntime)
     clearInterval(that.getLocation)
   },
+
+  onHide: function () {
+    var that = this
+    clearInterval(that.refreshIntime)
+    clearInterval(that.getLocation)
+  },
+
+  onShow: function () {
+      var that = this
+      that.getLocation = setInterval(function () {
+      wx.getLocation({
+        type: 'wgs84',
+        success: function (res) {
+          that.setData({
+            latitude: res.latitude,
+            longitude: res.longitude
+          })
+        }
+      })
+    }, 8000)
+
+    that.refreshIntime = setInterval(function () {
+      var groupID = wx.getStorageSync('groupID')
+      that.refresh()
+    }, 7500)
+  }
 })

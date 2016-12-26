@@ -1,3 +1,27 @@
+var Constant = require('../../utils/constant.js');
+var that;
+var timer;
+var DefaultData = [
+    {
+        "nickname": "徐锐",
+        "avator": "/pages/images/iec-circle.jpg",
+        "content": "感觉肾都要没了，我的哥",
+        "image": "/pages/images/minus.png",
+        "publishTime": "12:56",
+        "latitude": "30",
+        "longitude": "120"
+    },
+    {
+        "nickname": "徐锐",
+        "avator": "/pages/images/iec-circle.jpg",
+        "content": "感觉肾都要没了，我的哥",
+        "image": "/pages/images/minus.png",
+        "publishTime": "12:56",
+        "latitude": "30",
+        "longitude": "120"
+    }
+];
+
 Page({
     data: {
         items: []
@@ -9,11 +33,19 @@ Page({
     },
 
     onHide: function () {
+        console.log("onHide");
+        clearInterval(timer);
+        timer = null;
+    },
+
+    onUnload: function () {
+        console.log("onUnload");
         clearInterval(timer);
         timer = null;
     },
 
     onShow: function () {
+        console.log("onShow");
         timer = setInterval(function () {
             that.requestData();
         }, 10000);
@@ -88,27 +120,3 @@ Page({
         })
     }
 });
-
-var Constant = require('../../utils/constant.js');
-var that;
-var timer;
-var DefaultData = [
-    {
-        "nickname": "徐锐",
-        "avator": "/pages/images/iec-circle.jpg",
-        "content": "感觉肾都要没了，我的哥",
-        "image": "/pages/images/minus.png",
-        "publishTime": "12:56",
-        "latitude": "30",
-        "longitude": "120"
-    },
-    {
-        "nickname": "徐锐",
-        "avator": "/pages/images/iec-circle.jpg",
-        "content": "感觉肾都要没了，我的哥",
-        "image": "/pages/images/minus.png",
-        "publishTime": "12:56",
-        "latitude": "30",
-        "longitude": "120"
-    }
-];

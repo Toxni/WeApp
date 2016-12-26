@@ -97,15 +97,19 @@
 }
 
 .post {
-  position: fixed;
-  bottom: 250rpx;
-  z-index: 999;
+  width: 110rpx;
+  height: 110rpx;
+  bottom: 220rpx;
 }
 
 .dismiss {
-  position: fixed;
-  right: 200rpx;
-    z-index: 999;
+  bottom: 100rpx;
+  right: 180rpx;
+}
+
+.album {
+  right: 180rpx;
+  bottom: 224rpx;
 }
 
 .mask {
