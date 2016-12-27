@@ -159,6 +159,8 @@ Page({
     var that = this
     var session = wx.getStorageSync('session')
     var groupID = wx.getStorageSync('groupID')
+    console.log("group.js invoking refresh , !!groupID :")
+    console.log(!!groupID)
     if (!!groupID) {
       wx.request({
         url: 'https://ebichu.cn/fresh/',
@@ -173,6 +175,8 @@ Page({
           groupID: groupID,
         },
         success: function (a) {
+          console.log("current isDismiss is :")
+          console.log(!!a.data.isDismiss)
           if (!!a.data.isDismiss) {
             wx.redirectTo({
               url: '/pages/index/index'
@@ -198,6 +202,10 @@ Page({
             showCancel: false,
           })
         }
+      })
+    } else {
+      wx.redirectTo({
+        url: '/pages/index/index'
       })
     }
   },
