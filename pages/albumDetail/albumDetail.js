@@ -23,7 +23,7 @@ Page({
       },
       success: function (s) {
         console.log(s);
-        that.bindData(s.image);
+        that.bindData(s.data.image);
       },
       fail: function (f) {
         console.log(f);

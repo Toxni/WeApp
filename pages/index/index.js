@@ -2,6 +2,9 @@
 //获取应用实例
 var app = getApp()
 var util = require('../../utils/util.js')
+var refreshIntime = null
+var getLocation = null
+var that
 
 Page({
   data: {
@@ -36,7 +39,6 @@ Page({
   },
 
   creatConfirm: function () {
-    var that = this
     that.refresh()
     wx.showModal({
       title: '创建小组',
@@ -50,7 +52,6 @@ Page({
   },
 
   creatGroup: function () {
-    var that = this
     var session = wx.getStorageSync('session')
 
     wx.request({
@@ -108,7 +109,6 @@ Page({
   },
 
   addGroup: function (event) {
-    var that = this
     var session = wx.getStorageSync('session')
     if (event.detail.value.length >= 5) {
       that.setData({
@@ -169,7 +169,6 @@ Page({
   },
 
   refresh: function () {
-    var that = this
     var session = wx.getStorageSync('session')
     var groupID = wx.getStorageSync('groupID')
     if (!!groupID) {
@@ -215,11 +214,8 @@ Page({
     }
   },
 
-  refreshIntime: null,
-  getLocation: null,
-
   onLoad: function () {
-    var that = this
+    that = this
 
     wx.getLocation({
       type: 'wgs84',
@@ -242,10 +238,28 @@ Page({
       that.setData({
         userInfo: userInfo
       })
-    }),
+    });
+  },
 
-      that.getLocation = setInterval(function () {
-        wx.getLocation({
+  onUnload: function () {
+    clearInterval(refreshIntime)
+    clearInterval(getLocation)
+    refreshIntime = null
+    getLocation = null
+  },
+
+  onHide: function () {
+    clearInterval(refreshIntime)
+    clearInterval(getLocation)
+    refreshIntime = null
+    getLocation = null
+  },
+
+  onShow: function () {
+    this.refresh();
+
+    getLocation = setInterval(function () {
+      wx.getLocation({
         type: 'wgs84',
         success: function (res) {
           that.setData({
@@ -256,19 +270,9 @@ Page({
       })
     }, 8000)
 
-    that.refreshIntime = setInterval(function () {
+    refreshIntime = setInterval(function () {
       var groupID = wx.getStorageSync('groupID')
       that.refresh()
     }, 5000)
-  },
-
-  onUnload: function () {
-    var that = this
-    clearInterval(that.refreshIntime)
-    clearInterval(that.getLocation)
-  },
-
-  onReady: function () {
-    this.refresh()
   }
 })
