@@ -3,7 +3,7 @@
 var app = getApp()
 var util = require('../../utils/util.js')
 var refreshIntime = null
-var getLocation = null
+// var getLocation = null
 var that
 
 Page({
@@ -158,6 +158,8 @@ Page({
           })
         },
         fail: function (res) {
+          console.log("index.js getLocatino fail :")
+          console.log(res)
           wx.showModal({
             title: '定位失败',
             content: '请确定您的微信有获取定位权限',
@@ -217,22 +219,22 @@ Page({
   onLoad: function () {
     that = this
 
-    wx.getLocation({
-      type: 'wgs84',
-      success: function (res) {
-        that.setData({
-          latitude: res.latitude,
-          longitude: res.longitude,
-        })
-      },
-      fail: function () {
-        wx.showModal({
-          title: '定时刷新失败',
-          content: '请确定您的微信有获取定位权限',
-          showCancel: false,
-        })
-      }
-    })
+    // wx.getLocation({
+    //   type: 'wgs84',
+    //   success: function (res) {
+    //     that.setData({
+    //       latitude: res.latitude,
+    //       longitude: res.longitude,
+    //     })
+    //   },
+    //   fail: function () {
+    //     wx.showModal({
+    //       title: '定时刷新失败',
+    //       content: '请确定您的微信有获取定位权限',
+    //       showCancel: false,
+    //     })
+    //   }
+    // })
 
     app.getUserInfo(function (userInfo) {
       that.setData({
@@ -243,32 +245,32 @@ Page({
 
   onUnload: function () {
     clearInterval(refreshIntime)
-    clearInterval(getLocation)
+    // clearInterval(getLocation)
     refreshIntime = null
-    getLocation = null
+    // getLocation = null
   },
 
   onHide: function () {
     clearInterval(refreshIntime)
-    clearInterval(getLocation)
+    // clearInterval(getLocation)
     refreshIntime = null
-    getLocation = null
+    // getLocation = null
   },
 
   onShow: function () {
     this.refresh();
 
-    getLocation = setInterval(function () {
-      wx.getLocation({
-        type: 'wgs84',
-        success: function (res) {
-          that.setData({
-            latitude: res.latitude,
-            longitude: res.longitude
-          })
-        }
-      })
-    }, 8000)
+    // getLocation = setInterval(function () {
+    //   wx.getLocation({
+    //     type: 'wgs84',
+    //     success: function (res) {
+    //       that.setData({
+    //         latitude: res.latitude,
+    //         longitude: res.longitude
+    //       })
+    //     }
+    //   })
+    // }, 8000)
 
     refreshIntime = setInterval(function () {
       var groupID = wx.getStorageSync('groupID')
