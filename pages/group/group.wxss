@@ -7,7 +7,7 @@
   position: absolute;
   top: 0;
   width: 100%;
-  height: 48%;
+  height: 56%;
   z-index: 0;
 }
 
@@ -21,9 +21,8 @@
 
 .title {
   width: 96%;
-  height: 36rpx;
+  height: 60rpx;
   margin-left: 4%;
-  padding: 16rpx 0;
   border-bottom: solid 1px #efefef;
   color: #b9b9b9;
   font-size: 28rpx;
@@ -150,17 +149,10 @@
   font-size: 36rpx;
 }
 
-.mapBoxS {
-  top: 100rpx;
-}
-
 .inputS {
   width: 100%;
+  margin: 0;
   height: 1.2em;
-  margin: 0.5em auto;
-  border: solid 1px #cccccc;
-  border-left: none;
-  border-right: none; 
   text-align: center;
   font-size: 1em;
   color: #cccccc;
@@ -168,4 +160,8 @@
 
 .infoBoxS {
   padding-top: 100rpx;
+}
+
+.inline {
+  display: inline-block;
 }
