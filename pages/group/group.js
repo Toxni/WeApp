@@ -100,7 +100,7 @@ Page({
             url: 'https://ebichu.cn/createAlbum/',
             data: {
               session: session,
-              albumName: 'CNM',
+              albumName: '我的相册',
             },
             method: 'POST',
             success: function (res) {
