@@ -33,6 +33,12 @@ Page({
   },
 
   bindData: function (itemData) {
+    var i = 0;
+    for (i; i < itemData.length; i++) {
+      var content = itemData[i].content;
+      itemData[i].content = decodeURI(content);
+    }
+
     that.setData({
       items: itemData
     })
