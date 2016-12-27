@@ -12,14 +12,15 @@ image {
 }
 
 .avator {
-  width: 128rpx;
-  height: 128rpx;
+  width: 100rpx;
+  height: 100rpx;
   background-color: #09bb07;
+  border-radius: 10rpx;
 }
 
 .panel_avator {
-  width: 128rpx;
-  height: 128rpx;
+  width: 100rpx;
+  height: 100rpx;
   display: block;
   position: absolute;
   top: 16rpx;
@@ -30,12 +31,14 @@ image {
   display: block;
   width: 80%;
   padding-left: 144rpx;
+  color: #666;
 }
 
 .nickname {
   width: auto;
-  font-size: 44rpx;
-  margin-bottom: 16rpx;
+  font-size: 36rpx;
+  margin: 8rpx auto;
+  color: #444;
 }
 
 .content {
@@ -61,6 +64,7 @@ image {
   width: 100%;
   font-size: 30rpx;
   color: #b9b9b9;
+  margin-top: 50rpx;
 }
 
 .divider {
