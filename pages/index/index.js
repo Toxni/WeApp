@@ -4,6 +4,7 @@ var app = getApp()
 var util = require('../../utils/util.js')
 var refreshIntime = null
 var getLocation = null
+var that
 
 Page({
   data: {
@@ -38,7 +39,6 @@ Page({
   },
 
   creatConfirm: function () {
-    var that = this
     that.refresh()
     wx.showModal({
       title: '创建小组',
@@ -52,7 +52,6 @@ Page({
   },
 
   creatGroup: function () {
-    var that = this
     var session = wx.getStorageSync('session')
 
     wx.request({
@@ -110,7 +109,6 @@ Page({
   },
 
   addGroup: function (event) {
-    var that = this
     var session = wx.getStorageSync('session')
     if (event.detail.value.length >= 5) {
       that.setData({
@@ -171,7 +169,6 @@ Page({
   },
 
   refresh: function () {
-    var that = this
     var session = wx.getStorageSync('session')
     var groupID = wx.getStorageSync('groupID')
     if (!!groupID) {
@@ -218,7 +215,7 @@ Page({
   },
 
   onLoad: function () {
-    var that = this
+    that = this
 
     wx.getLocation({
       type: 'wgs84',
