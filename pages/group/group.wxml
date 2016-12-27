@@ -7,15 +7,15 @@
   <image src="../images/plus.png" class="fixBtn" bindtap="toggle"></image>
   <view class="mask" bindtap="toggleClear" wx:if="{{toggleShow}}"></view>
 </view>
-<view class="formS">
-  <input class="inputS" type="text" maxlength="24" bindblur="addMarkerMsg" placeholder="这里可以定义您的位置标记信息" placeholder-style="font-size: 28rpx; color: #cccccc"></input>
-</view>
 <view class="mapBox mapBoxS">
   <map class="mainMap" latitude="{{latitude}}" longitude="{{longitude}}" covers="{{covers}}" markers="{{markers}}"></map>
 </view>
 <scroll-view scroll-y="true" bindtap="toggleClear" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" class="infoBox infoBoxS">
   <view class="title">
-    <text>小组编号 - {{groupID}}</text>
+    <text class="inline">小组编号 - {{groupID}}</text>
+    <view class="inline">
+      <input class="inputS" type="text" maxlength="24" bindblur="addMarkerMsg" placeholder="(点此修改位置标记)" placeholder-style="font-size: 28rpx; color: #cccccc"></input>
+    </view>
   </view>
   <view class="personInfo" wx:for="{{allData.user}}" data-key="{{item.order}}" wx:key="{{item.order}}" bindtap="changeFocus">
     <view class="gravatarBox inline" data-key="{{item.order}}">
