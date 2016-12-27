@@ -2,6 +2,8 @@
 //获取应用实例
 var app = getApp()
 var util = require('../../utils/util.js')
+var refreshIntime = null
+var getLocation = null
 
 Page({
   data: {
@@ -215,9 +217,6 @@ Page({
     }
   },
 
-  refreshIntime: null,
-  getLocation: null,
-
   onLoad: function () {
     var that = this
 
@@ -242,10 +241,28 @@ Page({
       that.setData({
         userInfo: userInfo
       })
-    }),
+    });
+  },
 
-      that.getLocation = setInterval(function () {
-        wx.getLocation({
+  onUnload: function () {
+    clearInterval(refreshIntime)
+    clearInterval(getLocation)
+    refreshIntime = null
+    getLocation = null
+  },
+
+  onHide: function () {
+    clearInterval(refreshIntime)
+    clearInterval(getLocation)
+    refreshIntime = null
+    getLocation = null
+  },
+
+  onShow: function () {
+    this.refresh();
+
+    getLocation = setInterval(function () {
+      wx.getLocation({
         type: 'wgs84',
         success: function (res) {
           that.setData({
@@ -256,19 +273,9 @@ Page({
       })
     }, 8000)
 
-    that.refreshIntime = setInterval(function () {
+    refreshIntime = setInterval(function () {
       var groupID = wx.getStorageSync('groupID')
       that.refresh()
     }, 5000)
-  },
-
-  onUnload: function () {
-    var that = this
-    clearInterval(that.refreshIntime)
-    clearInterval(that.getLocation)
-  },
-
-  onReady: function () {
-    this.refresh()
   }
 })
